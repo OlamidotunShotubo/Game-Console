@@ -6,14 +6,16 @@ var connection = new HubConnectionBuilder()
 
 connection.Closed += async (error) =>
 {
+    Console.WriteLine("Closed");
     await Task.Delay(new Random().Next(0, 5) * 1000);
     await connection.StartAsync();
+
 };
 await connection.StartAsync();
 Console.WriteLine("CONNECTED TO GAME ROOM");
 Console.WriteLine("Pls Input a USERNAME");
 bool status = false;
-Timer ctDwn = null;int count = 0;
+Timer ctDwn = null; int count = 0;
 connection.On<Session>("GetReady", (Session game) =>
 {
     Console.WriteLine("Get Ready");
@@ -43,7 +45,7 @@ connection.On<Session>("SendSession", (Session game) =>
         Console.WriteLine("Pls Input a USERNAME");
         status = true;
     }
-
+    Console.WriteLine("Send Session");
 });
 
 
@@ -81,17 +83,26 @@ if (username != null)
 {
     status = true;
     Console.Clear();
-    await connection.InvokeAsync("Join",
-            username);
-    input = int.Parse(Console.ReadLine());
-    Console.Clear();
-    Console.WriteLine($"Dimension : {input}");
-    Console.WriteLine("Type (b) to Start the Game");
-    var start = Console.ReadLine();
-    if (start == "b")
+    try
     {
-        await connection.InvokeAsync("GetDimension", input);
+        await connection.InvokeAsync("Join",
+            username);
+        input = int.Parse(Console.ReadLine());
+        Console.Clear();
+        Console.WriteLine($"Dimension : {input}");
+        Console.WriteLine("Type (b) to Start the Game");
+        var start = Console.ReadLine();
+        if (start == "b")
+        {
+            Console.WriteLine("GetDimentions");
+            await connection.InvokeAsync("GetDimension", input);
+        }
     }
+    catch (System.Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+
 }
 Console.Read();
 

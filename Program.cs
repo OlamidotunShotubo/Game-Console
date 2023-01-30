@@ -1,7 +1,16 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 
 var connection = new HubConnectionBuilder()
                 .WithUrl("http://192.168.100.98:5238/puzzle")
+                //             .ConfigureLogging(logging =>
+                // {
+                //     // Log to the Console
+                //     logging.AddConsole();
+
+                //     // This will set ALL logging to Debug level
+                //     logging.SetMinimumLevel(LogLevel.Debug);
+                // })
                 .Build();
 
 connection.Closed += async (error) =>
@@ -13,12 +22,13 @@ connection.Closed += async (error) =>
 };
 await connection.StartAsync();
 Console.WriteLine("CONNECTED TO GAME ROOM");
-Console.WriteLine("Pls Input a USERNAME");
+Console.Write("Pls Input a USERNAME : ");
 bool status = false;
 Timer ctDwn = null; int count = 0;
+Session session = null;
 connection.On<Session>("GetReady", (Session game) =>
 {
-    Console.WriteLine("Get Ready");
+    session = game;
     ctDwn = new Timer(c =>
     {
         Console.Clear();
@@ -27,39 +37,50 @@ connection.On<Session>("GetReady", (Session game) =>
 });
 connection.On<Session>("SendSession", (Session game) =>
 {
+    session = game;
     if (status == true)
     {
         Console.Clear();
         Console.WriteLine("Online Users :-");
         Display(game);
         Console.WriteLine(" ");
-        Console.WriteLine("Input Game Dimension");
+        Console.Write("Input Game Dimension : ");
     }
-
     if (status != true)
     {
         Console.Clear();
         Console.WriteLine("Online Users :-");
         Display(game);
         Console.WriteLine(" ");
-        Console.WriteLine("Pls Input a USERNAME");
+        Console.Write("Pls Input a USERNAME : ");
         status = true;
     }
-    Console.WriteLine("Send Session");
 });
 
+connection.On<Session>("Play", (Session game) =>
+{
+    Console.Clear();
+    Display(game);
+});
 
 int input = 0;
-
 void Display(Session output)
 {
-    foreach (var Player in output.Players)
+    try
     {
-        Console.WriteLine(Player.Name);
-        if (Player.Game != null)
+        foreach (var Player in output.Players)
         {
-            Console.WriteLine(Player.Game.Display());
+            Console.WriteLine(Player.Name);
+            if (Player.Game != null)
+            {
+                Console.WriteLine(Player.Game.Display());
+            }
         }
+    }
+    catch (System.Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.StackTrace);
     }
 }
 
@@ -78,7 +99,8 @@ void GetReady(Session game)
 }
 // async void Program()
 // {
-var username = Console.ReadLine();
+var username = "";
+username = Console.ReadLine();
 if (username != null)
 {
     status = true;
@@ -90,19 +112,33 @@ if (username != null)
         input = int.Parse(Console.ReadLine());
         Console.Clear();
         Console.WriteLine($"Dimension : {input}");
-        Console.WriteLine("Type (b) to Start the Game");
+        Console.Write("Type (b) to Start the Game : ");
         var start = Console.ReadLine();
         if (start == "b")
         {
-            Console.WriteLine("GetDimentions");
             await connection.InvokeAsync("GetDimension", input);
         }
+        var direction = new ConsoleKeyInfo();
+        do
+        {
+            direction = Console.ReadKey();
+            Console.Clear();
+            foreach (var player in session.Players)
+            {
+                if (player.Name == username)
+                {
+                    player.Game.Play(GetDirection(direction));
+                    await connection.InvokeAsync("SendPlay", player);
+                }
+            }
+        } while (direction.Key != ConsoleKey.X);
+
     }
     catch (System.Exception ex)
     {
         Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.StackTrace);
     }
-
 }
 Console.Read();
 

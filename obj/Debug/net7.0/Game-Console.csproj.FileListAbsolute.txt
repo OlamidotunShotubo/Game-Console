@@ -29,3 +29,9 @@ C:\Users\olami\OneDrive\Documents\Coding\Game-Console\obj\Debug\net7.0\refint\Ga
 C:\Users\olami\OneDrive\Documents\Coding\Game-Console\obj\Debug\net7.0\Game-Console.pdb
 C:\Users\olami\OneDrive\Documents\Coding\Game-Console\obj\Debug\net7.0\Game-Console.genruntimeconfig.cache
 C:\Users\olami\OneDrive\Documents\Coding\Game-Console\obj\Debug\net7.0\ref\Game-Console.dll
+C:\Users\olami\OneDrive\Documents\Coding\Game-Console\bin\Debug\net7.0\Microsoft.Extensions.Configuration.dll
+C:\Users\olami\OneDrive\Documents\Coding\Game-Console\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\olami\OneDrive\Documents\Coding\Game-Console\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\olami\OneDrive\Documents\Coding\Game-Console\bin\Debug\net7.0\Microsoft.Extensions.Logging.Configuration.dll
+C:\Users\olami\OneDrive\Documents\Coding\Game-Console\bin\Debug\net7.0\Microsoft.Extensions.Logging.Console.dll
+C:\Users\olami\OneDrive\Documents\Coding\Game-Console\bin\Debug\net7.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll

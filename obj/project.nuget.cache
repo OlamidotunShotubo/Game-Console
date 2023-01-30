@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8d4isSe8NQPH6YiwItRy9z9ALSyZuHOgo0avzzTu8bxHvT/q99XANRKeSSzFtvtL37GgHN09cnXMQ6n10Chg+Q==",
+  "dgSpecHash": "xxaUzpUgJ16vQ7dq3SYYD/t+acELdOOsfC0OYRciX768C9mL3PlOOMLk9mf9O12wdJY2dexpSNIUOAfDXkeL4A==",
   "success": true,
   "projectFilePath": "C:\\Users\\olami\\OneDrive\\Documents\\Coding\\Game-Console\\Game-Console.csproj",
   "expectedPackageFiles": [
@@ -11,14 +11,22 @@
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.aspnetcore.signalr.client.core\\7.0.0\\microsoft.aspnetcore.signalr.client.core.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.aspnetcore.signalr.common\\7.0.0\\microsoft.aspnetcore.signalr.common.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.aspnetcore.signalr.protocols.json\\7.0.0\\microsoft.aspnetcore.signalr.protocols.json.7.0.0.nupkg.sha512",
+    "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.configuration\\7.0.0\\microsoft.extensions.configuration.7.0.0.nupkg.sha512",
+    "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.configuration.binder\\7.0.0\\microsoft.extensions.configuration.binder.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.features\\7.0.0\\microsoft.extensions.features.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.logging.configuration\\7.0.0\\microsoft.extensions.logging.configuration.7.0.0.nupkg.sha512",
+    "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.logging.console\\7.0.0\\microsoft.extensions.logging.console.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
+    "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\7.0.0\\microsoft.extensions.options.configurationextensions.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\system.io.pipelines\\7.0.0\\system.io.pipelines.7.0.0.nupkg.sha512",
+    "C:\\Users\\olami\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
+    "C:\\Users\\olami\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
     "C:\\Users\\olami\\.nuget\\packages\\system.threading.channels\\7.0.0\\system.threading.channels.7.0.0.nupkg.sha512"
   ],
   "logs": []

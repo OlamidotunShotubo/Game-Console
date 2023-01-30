@@ -129,7 +129,13 @@ if (username != null)
                 {
                     player.Game.Play(GetDirection(direction));
                     await connection.InvokeAsync("SendPlay", player);
-                    
+                    //                   if ()
+                    //                 {
+                    //                     Console.Clear();
+                    //                   Console.WriteLine("Weldone You did it.");
+                    //                  Console.WriteLine("Type (r) to replay");
+                    //                var restart = Console.ReadLine();
+                    //          }
                 }
             }
         } while (direction.Key != ConsoleKey.X);

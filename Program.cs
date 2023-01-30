@@ -56,7 +56,17 @@ connection.On<Session>("SendSession", (Session game) =>
         status = true;
     }
 });
-
+connection.On<Session>("GameOver", (Session game) =>
+{
+    foreach (var player in game.Players)
+    {
+        if (player.Winner)
+        {
+            Console.Clear();
+            Console.Write($"{player.Name} is the Winner of the Game");
+        }
+    }
+});
 connection.On<Session>("Play", (Session game) =>
 {
     Console.Clear();
@@ -92,7 +102,7 @@ void GetReady(Session game)
     Console.WriteLine($"{count} Second");
     if (count == 5)
     {
-        ctDwn.Change(Timeout.Infinite, Timeout.Infinite);
+        ctDwn.Change(Timeout.Infinite,Timeout.Infinite);
         Console.Clear();
         Display(game);
     }

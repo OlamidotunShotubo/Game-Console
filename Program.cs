@@ -129,6 +129,7 @@ if (username != null)
                 {
                     player.Game.Play(GetDirection(direction));
                     await connection.InvokeAsync("SendPlay", player);
+                    
                 }
             }
         } while (direction.Key != ConsoleKey.X);

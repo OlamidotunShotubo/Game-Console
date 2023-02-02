@@ -12,7 +12,6 @@ var connection = new HubConnectionBuilder()
                 //     logging.SetMinimumLevel(LogLevel.Debug);
                 // })
                 .Build();
-
 connection.Closed += async (error) =>
 {
     Console.WriteLine("Closed");
@@ -23,7 +22,7 @@ connection.Closed += async (error) =>
 await connection.StartAsync();
 Console.WriteLine("CONNECTED TO GAME ROOM");
 Console.Write("Pls Input a USERNAME : ");
-bool status = false;
+bool status = false; var username = "";
 Timer ctDwn = null; int count = 0;
 Session session = null;
 connection.On<Session>("GetReady", (Session game) =>
@@ -35,11 +34,13 @@ connection.On<Session>("GetReady", (Session game) =>
         GetReady(game);
     }, null, 0, 1000);
 });
+
 connection.On<Session>("SendSession", (Session game) =>
 {
     session = game;
     if (status == true)
     {
+        Console.ForegroundColor = (ConsoleColor.Gray);
         Console.Clear();
         Console.WriteLine("Online Users :-");
         Display(game);
@@ -63,7 +64,15 @@ connection.On<Session>("GameOver", (Session game) =>
         if (player.Winner)
         {
             Console.Clear();
-            Console.Write($"{player.Name} is the Winner of the Game");
+            Console.ForegroundColor = (ConsoleColor.Gray);
+            Console.WriteLine($"{player.Name} is the Winner of the Game");
+            count = 0;
+            session = game;
+            ctDwn = new Timer(c =>
+            {
+                Console.Clear();
+                GameEnded(game);
+            }, null, 0, 1000);
         }
     }
 });
@@ -74,42 +83,7 @@ connection.On<Session>("Play", (Session game) =>
 });
 
 int input = 0;
-void Display(Session output)
-{
-    try
-    {
-        foreach (var Player in output.Players)
-        {
-            Console.WriteLine(Player.Name);
-            if (Player.Game != null)
-            {
-                Console.WriteLine(Player.Game.Display());
-            }
-        }
-    }
-    catch (System.Exception ex)
-    {
-        Console.WriteLine(ex.Message);
-        Console.WriteLine(ex.StackTrace);
-    }
-}
 
-bool show = false;
-void GetReady(Session game)
-{
-    Console.WriteLine("The game will Start in 5 Seconds");
-    count++;
-    Console.WriteLine($"{count} Second");
-    if (count == 5)
-    {
-        ctDwn.Change(Timeout.Infinite,Timeout.Infinite);
-        Console.Clear();
-        Display(game);
-    }
-}
-// async void Program()
-// {
-var username = "";
 username = Console.ReadLine();
 if (username != null)
 {
@@ -121,35 +95,28 @@ if (username != null)
             username);
         input = int.Parse(Console.ReadLine());
         Console.Clear();
+        Console.ForegroundColor = (ConsoleColor.Gray);
         Console.WriteLine($"Dimension : {input}");
+        Console.WriteLine("Type (v) to Choose another Dimension");
         Console.Write("Type (b) to Start the Game : ");
         var start = Console.ReadLine();
+
+        if (start == "v")
+        {
+            Console.ForegroundColor = (ConsoleColor.Gray);
+            Console.Clear();
+            Console.Write("Input Game Dimension : ");
+            input = int.Parse(Console.ReadLine());
+            Console.Clear();
+            Console.WriteLine($"Dimension : {input}");
+            Console.WriteLine("Type (v) to Choose another Dimension");
+            Console.Write("Type (b) to Start the Game : ");
+            start = Console.ReadLine();
+        }
         if (start == "b")
         {
             await connection.InvokeAsync("GetDimension", input);
         }
-        var direction = new ConsoleKeyInfo();
-        do
-        {
-            direction = Console.ReadKey();
-            Console.Clear();
-            foreach (var player in session.Players)
-            {
-                if (player.Name == username)
-                {
-                    player.Game.Play(GetDirection(direction));
-                    await connection.InvokeAsync("SendPlay", player);
-                    //                   if ()
-                    //                 {
-                    //                     Console.Clear();
-                    //                   Console.WriteLine("Weldone You did it.");
-                    //                  Console.WriteLine("Type (r) to replay");
-                    //                var restart = Console.ReadLine();
-                    //          }
-                }
-            }
-        } while (direction.Key != ConsoleKey.X);
-
     }
     catch (System.Exception ex)
     {
@@ -159,6 +126,71 @@ if (username != null)
 }
 Console.Read();
 
+
+
+
+void Display(Session output)
+{
+    try
+    {
+        foreach (var player in output.Players)
+        {
+            Console.ForegroundColor = (ConsoleColor)player.Color;
+            Console.WriteLine(player.Name);
+            if (player.Game != null)
+            {
+                Console.WriteLine(player.Game.Display());
+
+            }
+        }
+    }
+    catch (System.Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.StackTrace);
+    }
+}
+
+async void GetReady(Session game)
+{
+    Console.ForegroundColor = (ConsoleColor.Gray);
+    Console.WriteLine("The game will Start soon");
+    count++;
+    Console.WriteLine($"{count} Second");
+    if (count == 5)
+    {
+        ctDwn.Change(Timeout.Infinite, Timeout.Infinite);
+        Console.Clear();
+        Display(game);
+        var direction = new ConsoleKeyInfo();
+        do
+        {
+            Console.WriteLine("PLAY");
+            direction = Console.ReadKey();
+            Console.Clear();
+            foreach (var player in session.Players)
+            {
+                if (player.Name == username)
+                {
+
+                    player.Game.Play(GetDirection(direction));
+                    await connection.InvokeAsync("SendPlay", player);
+                }
+            }
+        } while (direction.Key != ConsoleKey.X);
+    }
+}
+
+void GameEnded(Session game)
+{
+    count++;
+    if (count == 5)
+    {
+        ctDwn.Change(Timeout.Infinite, Timeout.Infinite);
+        Console.Clear();
+        Console.WriteLine("end");
+    }
+}
 
 Direction GetDirection(ConsoleKeyInfo input)
 {

@@ -19,6 +19,7 @@ connection.Closed += async (error) =>
     await connection.StartAsync();
 
 };
+bool gameStarted=false;
 await connection.StartAsync();
 Console.WriteLine("CONNECTED TO GAME ROOM");
 Console.Write("Pls Input a USERNAME : ");
@@ -113,10 +114,11 @@ if (username != null)
             Console.Write("Type (b) to Start the Game : ");
             start = Console.ReadLine();
         }
-        if (start == "b")
+        if (!gameStarted && start == "b")
         {
             await connection.InvokeAsync("GetDimension", input);
         }
+        await Play();
     }
     catch (System.Exception ex)
     {
@@ -159,26 +161,32 @@ async void GetReady(Session game)
     Console.WriteLine($"{count} Second");
     if (count == 5)
     {
+        gameStarted=true;
+        count=0;
         ctDwn.Change(Timeout.Infinite, Timeout.Infinite);
         Console.Clear();
         Display(game);
-        var direction = new ConsoleKeyInfo();
-        do
-        {
-            Console.WriteLine("PLAY");
-            direction = Console.ReadKey();
-            Console.Clear();
-            foreach (var player in session.Players)
-            {
-                if (player.Name == username)
-                {
-
-                    player.Game.Play(GetDirection(direction));
-                    await connection.InvokeAsync("SendPlay", player);
-                }
-            }
-        } while (direction.Key != ConsoleKey.X);
     }
+}
+
+async Task<bool> Play()
+{
+    var direction = new ConsoleKeyInfo();
+    do
+    {
+        direction = Console.ReadKey();
+        Console.Clear();
+        foreach (var player in session.Players)
+        {
+            if (player.Name == username)
+            {
+
+                player.Game.Play(GetDirection(direction));
+                await connection.InvokeAsync("SendPlay", player);
+            }
+        }
+    } while (direction.Key != ConsoleKey.X);
+    return true;
 }
 
 void GameEnded(Session game)
